@@ -6,3 +6,18 @@ Pour le premier phase, j'ai passé un peu de temps en experimentant avec google 
 
 ## Phase de mise en place MQTT broker
 Pour la deuxieme phase on va decouvrir comment connecter avec MQTT broker.
+
+```
+pip install -r requirements.txt
+```
+ça va installer les packages necessaires sur votre machine.
+
+```
+sudo apt install mosquitto
+```
+ç va installer mosquito sur votre machine.
+
+```
+mosquitto_sub -t '/test'
+```
+ça va subsriver sur topic nommé '/test'

@@ -1,9 +1,10 @@
 import cv2
 import paho.mqtt.client as mqtt
+import numpy as np
 
 # MQTT broker settings
-broker_address = "your_mqtt_broker_address"
-topic = "object_detection"
+broker_address = "localhost"
+topic = "/test"
 
 # Create an MQTT client
 client = mqtt.Client("object_detection_client")
@@ -55,16 +56,12 @@ while True:
             x, y, w, h = boxes[i]
             label = str(classes[class_ids[i]])
             confidence = confidences[i]
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-            cv2.putText(frame, f"{label} {confidence:.2f}", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
             detection_info = f"{label} - Confidence: {confidence:.2f}"
+            print(detection_info)
             client.publish(topic, detection_info)
 
-    cv2.imshow("Object Detection", frame)
+    # ... (optional: publish detection_info to MQTT)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
+# Release the camera
 cap.release()
-cv2.destroyAllWindows()
 client.disconnect()
