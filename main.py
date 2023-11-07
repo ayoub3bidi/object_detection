@@ -58,9 +58,9 @@ while True:
             confidence = confidences[i]
             detection_info = f"{label} - Confidence: {confidence:.2f}"
             print(detection_info)
-            client.publish(topic, detection_info)
 
-    # ... (optional: publish detection_info to MQTT)
+            # Publish detection_info to MQTT
+            client.publish(topic, detection_info)
 
 # Release the camera
 cap.release()
