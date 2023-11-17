@@ -13,6 +13,11 @@ pip install -r requirements.txt
 ça va installer les packages necessaires sur votre machine.
 
 ```
+sudo apt-get install libgtk2.0-dev pkg-config
+```
+ça va builder OpenCV avec le support GUI approperié.
+
+```
 sudo apt-get update
 sudo apt-get install mosquitto
 ```

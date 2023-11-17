@@ -62,6 +62,14 @@ while True:
             # Publish detection_info to MQTT
             client.publish(topic, detection_info)
 
-# Release the camera
+    # Display the frame with object detection results
+    cv2.imshow("Object Detection", frame)
+
+    # Exit on 'q' key press
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Release the camera and close OpenCV windows
 cap.release()
+cv2.destroyAllWindows()
 client.disconnect()
