@@ -32,3 +32,6 @@ sudo systemctl start mosquitto
 mosquitto_sub -t '/test'
 ```
 ça va subcriber sur topic nommé '/test'
+
+
+Vous pouvez cliquer `q` pour quitter.
