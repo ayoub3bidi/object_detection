@@ -1,6 +1,8 @@
 import cv2
 import paho.mqtt.client as mqtt
 import numpy as np
+from gtts import gTTS
+import os
 
 # MQTT broker settings
 broker_address = "localhost"
@@ -71,6 +73,12 @@ while True:
             # Draw rectangle and label on the frame with class-specific color
             cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
             cv2.putText(frame, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            
+            if label == "cell phone":
+                speech_text = "Please turn off your phone."
+                tts = gTTS(text=speech_text, lang='en')
+                tts.save("warning.mp3")
+                os.system("mpg123 warning.mp3") 
 
     # Display the frame with object detection results
     cv2.imshow("Object Detection", frame)
