@@ -18,6 +18,9 @@ classes = []
 with open("coco.names", "r") as f:
     classes = f.read().strip().split("\n")
 
+# Generate random colors for each class
+class_colors = np.random.randint(0, 255, size=(len(classes), 3), dtype="uint8")
+
 # Open a video capture stream from your laptop camera (0 for default camera)
 cap = cv2.VideoCapture(0)
 
@@ -62,6 +65,21 @@ while True:
             # Publish detection_info to MQTT
             client.publish(topic, detection_info)
 
-# Release the camera
+            # Assign a unique color to each class
+            color = [int(c) for c in class_colors[class_ids[i]]]
+
+            # Draw rectangle and label on the frame with class-specific color
+            cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
+            cv2.putText(frame, label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+
+    # Display the frame with object detection results
+    cv2.imshow("Object Detection", frame)
+
+    # Exit on 'q' key press
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Release the camera and close OpenCV windows
 cap.release()
+cv2.destroyAllWindows()
 client.disconnect()
