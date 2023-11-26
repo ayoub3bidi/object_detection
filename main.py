@@ -3,7 +3,7 @@ import paho.mqtt.client as mqtt
 import numpy as np
 from gtts import gTTS
 import os
-import pygame
+import matplotlib.pyplot as plt
 
 # MQTT broker settings
 broker_address = "localhost"
@@ -27,20 +27,11 @@ class_colors = np.random.randint(0, 255, size=(len(classes), 3), dtype="uint8")
 # Open a video capture stream from your laptop camera (0 for default camera)
 cap = cv2.VideoCapture(0)
 
-# Initialize Pygame
-pygame.init()
-
-# Pygame window settings
-stats_window_width = 300
-stats_window_height = 400
-stats_window = pygame.display.set_mode((stats_window_width, stats_window_height))
-pygame.display.set_caption("Detection Statistics")
-
-# Font settings for statistics display
-font = pygame.font.SysFont(None, 25)
+# Initialize Matplotlib figure and axis
+fig, ax = plt.subplots()
 
 # Dictionary to store detection counts for each class
-detection_counts = {label: 0 for label in classes}
+detection_counts = {"person": 0, "cell phone": 0, "laptop": 0, "book": 0, "chair": 0, "bottle": 0}
 
 while True:
     ret, frame = cap.read()
@@ -76,6 +67,8 @@ while True:
         if i in indexes:
             x, y, w, h = boxes[i]
             label = str(classes[class_ids[i]])
+            if label not in ["person", "cell phone"]:
+                continue
             confidence = confidences[i]
             detection_info = f"{label} - Confidence: {confidence:.2f}"
             print(detection_info)
@@ -102,27 +95,23 @@ while True:
     # Display the frame with object detection results
     cv2.imshow("Object Detection", frame)
 
-    # Display statistics in the Pygame window
-    stats_window.fill((255, 255, 255))  # White background
-    y_offset = 10
-    for label, count in detection_counts.items():
-        text = font.render(f"{label}: {count}", True, (0, 0, 0))  # Black text
-        stats_window.blit(text, (10, y_offset))
-        y_offset += 30
-
-    pygame.display.flip()
-
-    # Handle Pygame events
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            break
+    # Update and display the chart
+    labels, counts = zip(*detection_counts.items())
+    ax.clear()
+    ax.bar(labels, counts)
+    plt.xticks(rotation='vertical')
+    plt.pause(0.01)
 
     # Exit on 'q' key press
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release the camera and close OpenCV and Pygame windows
+    # Handle the closing of the chart window
+    if not plt.get_fignums():
+        break
+
+# Release the camera and close OpenCV and Matplotlib windows
 cap.release()
 cv2.destroyAllWindows()
 client.disconnect()
-pygame.quit()
+plt.close()
