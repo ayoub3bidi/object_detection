@@ -42,9 +42,6 @@ font = pygame.font.SysFont(None, 25)
 # Dictionary to store detection counts for each class
 detection_counts = {label: 0 for label in classes}
 
-# Dictionary to track whether a class has been detected in the current frame
-class_detected = {label: False for label in classes}
-
 while True:
     ret, frame = cap.read()
     blob = cv2.dnn.blobFromImage(frame, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
@@ -56,10 +53,6 @@ while True:
     boxes = []
     width = frame.shape[1]
     height = frame.shape[0]
-
-    # Reset the class_detected flag for the current frame
-    for label in classes:
-        class_detected[label] = False
 
     for out in outs:
         for detection in out:
@@ -90,10 +83,8 @@ while True:
             # Publish detection_info to MQTT
             client.publish(topic, detection_info)
 
-            # Update detection count for the class if not detected in the current frame
-            if not class_detected[label]:
-                detection_counts[label] += 1
-                class_detected[label] = True
+            # Update detection count for the class
+            detection_counts[label] += 1
 
             # Assign a unique color to each class
             color = [int(c) for c in class_colors[class_ids[i]]]
