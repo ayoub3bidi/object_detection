@@ -3,6 +3,7 @@ import paho.mqtt.client as mqtt
 import numpy as np
 from gtts import gTTS
 import os
+import pygame
 
 # MQTT broker settings
 broker_address = "localhost"
@@ -26,6 +27,24 @@ class_colors = np.random.randint(0, 255, size=(len(classes), 3), dtype="uint8")
 # Open a video capture stream from your laptop camera (0 for default camera)
 cap = cv2.VideoCapture(0)
 
+# Initialize Pygame
+pygame.init()
+
+# Pygame window settings
+stats_window_width = 300
+stats_window_height = 400
+stats_window = pygame.display.set_mode((stats_window_width, stats_window_height))
+pygame.display.set_caption("Detection Statistics")
+
+# Font settings for statistics display
+font = pygame.font.SysFont(None, 25)
+
+# Dictionary to store detection counts for each class
+detection_counts = {label: 0 for label in classes}
+
+# Dictionary to track whether a class has been detected in the current frame
+class_detected = {label: False for label in classes}
+
 while True:
     ret, frame = cap.read()
     blob = cv2.dnn.blobFromImage(frame, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
@@ -37,6 +56,10 @@ while True:
     boxes = []
     width = frame.shape[1]
     height = frame.shape[0]
+
+    # Reset the class_detected flag for the current frame
+    for label in classes:
+        class_detected[label] = False
 
     for out in outs:
         for detection in out:
@@ -67,6 +90,11 @@ while True:
             # Publish detection_info to MQTT
             client.publish(topic, detection_info)
 
+            # Update detection count for the class if not detected in the current frame
+            if not class_detected[label]:
+                detection_counts[label] += 1
+                class_detected[label] = True
+
             # Assign a unique color to each class
             color = [int(c) for c in class_colors[class_ids[i]]]
 
@@ -83,11 +111,27 @@ while True:
     # Display the frame with object detection results
     cv2.imshow("Object Detection", frame)
 
+    # Display statistics in the Pygame window
+    stats_window.fill((255, 255, 255))  # White background
+    y_offset = 10
+    for label, count in detection_counts.items():
+        text = font.render(f"{label}: {count}", True, (0, 0, 0))  # Black text
+        stats_window.blit(text, (10, y_offset))
+        y_offset += 30
+
+    pygame.display.flip()
+
+    # Handle Pygame events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            break
+
     # Exit on 'q' key press
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release the camera and close OpenCV windows
+# Release the camera and close OpenCV and Pygame windows
 cap.release()
 cv2.destroyAllWindows()
 client.disconnect()
+pygame.quit()
