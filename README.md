@@ -6,7 +6,7 @@ Pour le premier phase, j'ai passé un peu de temps en experimentant avec google 
 
 ## Phase de mise en place MQTT broker
 Pour la deuxieme phase on va decouvrir comment connecter avec MQTT broker, pour cette phase j'ai choisi mosquitto.  
-**Notes**: Nous ne pouvons pas télécharger le fichier yolov3.weights car il est trop volumineux. Vous devez donc le télécharger vous-même.
+**Notes**: Je peux pas uploader le fichier yolov3.weights ici car il est trop volumineux. Vous devez donc le télécharger vous-même.
 ```
 pip install -r requirements.txt
 ```
@@ -35,3 +35,17 @@ mosquitto_sub -t '/test'
 
 
 Vous pouvez cliquer `q` pour quitter.
+
+## Phase de la Création d'une application avec info détectée
+Dans cette troisième et dernière phase, je vais ajouter de nouvelles fonctionnalités au programme afin que nous puissions utiliser les données détectées lors de la phase précédente.  
+
+L'idée de cette application est que le programme détecte les objets à partir de la caméra. S'il détecte un téléphone, il dira à l'utilisateur de l'éteindre.
+
+## Premier feature: Camera window
+Tout d'abord, j'ai ajouté la fenêtre de la caméra qui montre ce qu'elle voit, puis j'ai ajouté un rectangle de détection sur chaque objet qu'elle détecte avec une étiquette.
+
+## Deuxième feature: Voice activation detection
+J'ai ajouté une fonction qui fonctionne lorsque la caméra détecte un utilisateur ayant un téléphone derrière lui et qui génère une voix disant qu'il doit éteindre son téléphone en utilisant le paquet gTTs.
+
+## Troisième feature: Chart window
+J'ai ajouté une fonction qui génère une fenêtre contenant un graphique des informations détectées (les noms des objets détectés (coco.names) ont été réduits à 6 objets pour rendre le graphique lisible).
