@@ -6,7 +6,7 @@ function App() {
 
   return (
     <>
-      <h1>Object Detection</h1>
+      <h2>Detected info charts</h2>
       <Diagrams />
     </>
   )
