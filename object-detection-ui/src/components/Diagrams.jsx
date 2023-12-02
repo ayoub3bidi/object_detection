@@ -158,18 +158,18 @@ const Diagrams = () => {
   }, []);
 
   return (
-    <div>
-      <div>
+    <div className="diagram-container">
+      <div className="chart-container">
         <canvas id="barChart" width="800" height="400"></canvas>
       </div>
-      <div>
+      <div className="chart-container">
         <canvas id="lineChart" width="800" height="400"></canvas>
       </div>
-      <div>
-        <canvas id="doughnutChart" width="800" height="400"></canvas>
+      <div className="chart-container">
+        <canvas id="doughnutChart" width="800" height="300"></canvas>
       </div>
-      <div>
-        <canvas id="radarChart" width="800" height="400"></canvas>
+      <div className="chart-container">
+        <canvas id="radarChart" width="800" height="300"></canvas>
       </div>
     </div>
   );

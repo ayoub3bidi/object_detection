@@ -1,4 +1,3 @@
-// import { useState } from 'react'
 import './App.css'
 import Diagrams from './components/Diagrams'
 
@@ -6,7 +5,7 @@ function App() {
 
   return (
     <>
-      <h2>Detected info charts</h2>
+      <h1>Detected info charts</h1>
       <Diagrams />
     </>
   )

@@ -5,15 +5,28 @@
   text-align: center;
 }
 
+.diagram-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.diagram-container > div {
+  width: 48%; /* Adjust the width as needed, leaving some space for margin or padding */
+  margin: 1%; /* Adjust the margin as needed */
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
