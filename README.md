@@ -49,3 +49,6 @@ J'ai ajouté une fonction qui fonctionne lorsque la caméra détecte un utilisat
 
 ## Troisième feature: Chart window
 J'ai ajouté une fonction qui génère une fenêtre contenant un graphique des informations détectées (les noms des objets détectés (coco.names) ont été réduits à 6 objets pour rendre le graphique lisible).
+
+## Quatrième feature: Enregistrer les données dans Firebase
+J'ai créé une base de données firebase realtime, et je l'ai connectée à mon code en utilisant le package firebase_admin, et lorsque nous lançons le script main.py les données realtime seront sauvegardées dans la base de données sous le dossier "detections".
