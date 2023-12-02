@@ -4,6 +4,14 @@ import numpy as np
 from gtts import gTTS
 import os
 import matplotlib.pyplot as plt
+import firebase_admin
+from firebase_admin import credentials, db
+
+# Fetch the service account key JSON file contents
+cred = credentials.Certificate('serviceAccountKey.json')
+firebase_admin.initialize_app(cred, {
+    'databaseURL': "https://mqtt-broker-database-default-rtdb.firebaseio.com/"
+})
 
 # MQTT broker settings
 broker_address = "localhost"
@@ -12,6 +20,9 @@ topic = "/test"
 # Create an MQTT client
 client = mqtt.Client("object_detection_client")
 client.connect(broker_address)
+
+# Get a reference to the Firebase Realtime Database
+firebase_ref = db.reference('/detections')
 
 # Load YOLO model
 net = cv2.dnn.readNet("yolov3.weights", "yolov3.cfg")
@@ -40,9 +51,16 @@ def process_detection(frame, boxes, confidences, class_ids):
 
         detection_info = f"{label} - Confidence: {confidence:.2f}"
         print(detection_info)
+        firebase_detection_info = {
+            'label': label,
+            'confidence': float(confidence)
+        }
 
         # Publish detection_info to MQTT
         client.publish(topic, detection_info)
+        
+        # Save detection_info to Firebase
+        firebase_ref.push(firebase_detection_info)
 
         # Update detection count for the class
         detection_counts[label] += 1

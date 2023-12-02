@@ -1,2 +1,4 @@
 opencv-python-headless
 paho-mqtt
+gtts
+firebase-admin
