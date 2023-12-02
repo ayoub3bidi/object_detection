@@ -16,6 +16,10 @@
   margin: 1%; /* Adjust the margin as needed */
 }
 
+.chart-container {
+  padding-bottom: 20px;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
