@@ -4,6 +4,7 @@ import numpy as np
 from gtts import gTTS
 import os
 import matplotlib.pyplot as plt
+import time
 import firebase_admin
 from firebase_admin import credentials, db
 
@@ -53,7 +54,8 @@ def process_detection(frame, boxes, confidences, class_ids):
         print(detection_info)
         firebase_detection_info = {
             'label': label,
-            'confidence': float(confidence)
+            'confidence': float(confidence),
+            'timestamp': int(time.time())
         }
 
         # Publish detection_info to MQTT
