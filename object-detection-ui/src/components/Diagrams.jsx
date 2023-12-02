@@ -34,6 +34,17 @@ const Diagrams = () => {
       createLineChart(data);
       createDoughnutChart(data);
       createRadarChart(data);
+      createPersonCountChart(data);
+      createStackedBarChart(data);
+    };
+
+    const getRandomColor = () => {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
     };
 
     const createBarChart = (data) => {
@@ -154,16 +165,79 @@ const Diagrams = () => {
       });
     };
 
+    const createPersonCountChart = (data) => {
+      const labels = data.map((item) => new Date(item.timestamp * 1000).toLocaleString());
+      const personCountValues = data.map((item) => item.personCount || 0); // Assuming your data has a personCount property
+
+      const ctxPersonCount = document.getElementById('personCountChart').getContext('2d');
+      new Chart(ctxPersonCount, {
+        type: 'bar', // You can change the chart type based on your preference
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Person Count',
+              data: personCountValues,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    };
+
+    const createStackedBarChart = (data) => {
+      const labels = data.map((item) => item.label);
+      const datasets = Array.from(new Set(labels)).map((label) => ({
+        label: label,
+        data: data.filter((item) => item.label === label).map((item) => item.confidence),
+        backgroundColor: getRandomColor(),
+      }));
+
+      const ctxStackedBar = document.getElementById('stackedBarChart').getContext('2d');
+      new Chart(ctxStackedBar, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: datasets,
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+            x: {
+              stacked: true,
+            },
+          },
+        },
+      });
+    };
+
     fetchData();
   }, []);
 
   return (
     <div className="diagram-container">
       <div className="chart-container">
-        <canvas id="barChart" width="800" height="400"></canvas>
+        <canvas id="personCountChart" width="800" height="500"></canvas>
       </div>
       <div className="chart-container">
         <canvas id="lineChart" width="800" height="400"></canvas>
+      </div>
+      <div className="chart-container">
+        <canvas id="barChart" width="800" height="400"></canvas>
+      </div>
+      <div className="chart-container">
+        <canvas id="stackedBarChart" width="800" height="400"></canvas>
       </div>
       <div className="chart-container">
         <canvas id="doughnutChart" width="800" height="300"></canvas>
