@@ -7,28 +7,29 @@ Pour le premier phase, j'ai passé un peu de temps en experimentant avec google 
 ## 2. Phase de mise en place MQTT broker
 Pour la deuxieme phase on va decouvrir comment connecter avec MQTT broker, pour cette phase j'ai choisi mosquitto.  
 **Notes**: Je peux pas uploader le fichier yolov3.weights ici car il est trop volumineux. Vous devez donc le télécharger vous-même.
-```
+```shell
 pip install -r requirements.txt
 ```
 ça va installer les packages necessaires sur votre machine.
 
-```
+```shell
 sudo apt-get install libgtk2.0-dev pkg-config
 ```
 ça va builder OpenCV avec le support GUI approperié.
 
-```
+```shell
 sudo apt-get update
 sudo apt-get install mosquitto
 ```
 ça va installer mosquito sur votre machine.
 
-```
+```shell
 sudo systemctl enable mosquitto
 sudo systemctl start mosquitto
 ```
 ça va commencer le mosquitto.
-```
+
+```shell
 mosquitto_sub -t '/test'
 ```
 ça va subcriber sur topic nommé '/test'
@@ -55,3 +56,16 @@ J'ai créé une base de données firebase realtime, et je l'ai connectée à mon
 
 ## 3.5 Cinquième feature: Affichage les données sur un page web
 Je crée un projet react dans lequel je récupère les données de firebase et les utilise pour créer différents graphiques à l'aide de chart.js.
+
+Pour lancer le projet sur votre machine, veuillez suivre les commandes ci-dessous:
+
+```shell
+cd object-detection-ui
+npm install
+```
+Ceci va aller dans le répertoire du projet frontend et installer toutes les dépendances nécessaires.
+
+```shell
+npm run dev
+```
+Le projet sera ainsi exécuté localement sur votre machine.
