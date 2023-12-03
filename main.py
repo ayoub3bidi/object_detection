@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import time
 import firebase_admin
 from firebase_admin import credentials, db
+from randomData import getFakeData
 
 # Fetch the service account key JSON file contents
 cred = credentials.Certificate('serviceAccountKey.json')
@@ -51,12 +52,18 @@ def process_detection(frame, boxes, confidences, class_ids):
             continue
 
         detection_info = f"{label} - Confidence: {confidence:.2f}"
+        
         print(detection_info)
-        firebase_detection_info = {
-            'label': label,
-            'confidence': float(confidence),
-            'timestamp': int(time.time())
-        }
+        
+        ##? Create a detection_info dictionary to save to Firebase
+        # firebase_detection_info = {
+        #     'label': label,
+        #     'confidence': float(confidence),
+        #     'timestamp': int(time.time())
+        # }
+        
+        ##? Create a fake detection_info dictionary to save to Firebase
+        firebase_detection_info = getFakeData()
 
         # Publish detection_info to MQTT
         client.publish(topic, detection_info)
