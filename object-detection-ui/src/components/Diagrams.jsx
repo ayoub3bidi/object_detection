@@ -80,7 +80,7 @@ const Diagrams = () => {
       const labels = data.map((item) => item.label);
       const confidenceValues = data.map((item) => item.confidence);
 
-      const ctxLine = document.getElementById('lineChart').getContext('3d');
+      const ctxLine = document.getElementById('lineChart').getContext('2d');
       new Chart(ctxLine, {
         type: 'line',
         data: {
@@ -226,11 +226,8 @@ const Diagrams = () => {
   }, []);
 
   return (
-    <div className="diagram-container">
-      <div className="chart-container">
-        <canvas id="personCountChart" width="800" height="500"></canvas>
-      </div>
-      <div className="chart-container" style={{ textAlign: "Left"}}>
+    <div>
+      <div className="" style={{ textAlign: "Left", paddingLeft: "10px", border: "1px solid white"}}>
         <h3>Statistics</h3>
         <ul>
           <li>All detections: {data.length}</li>
@@ -244,20 +241,25 @@ const Diagrams = () => {
           <li>Number of stop signs: {data.filter((item) => item.label === 'stop sign').length}</li>
         </ul>
       </div>
-      {/* <div className="chart-container">
-        <canvas id="lineChart" width="800" height="400"></canvas>
-      </div> */}
-      <div className="chart-container">
-        <canvas id="barChart" width="800" height="400"></canvas>
-      </div>
-      <div className="chart-container">
-        <canvas id="stackedBarChart" width="800" height="400"></canvas>
-      </div>
-      <div className="chart-container">
-        <canvas id="doughnutChart" width="800" height="300"></canvas>
-      </div>
-      <div className="chart-container">
-        <canvas id="radarChart" width="800" height="300"></canvas>
+      <div className="diagram-container">
+        <div className="chart-container">
+          <canvas id="personCountChart" width="800" height="500"></canvas>
+        </div>
+        <div className="chart-container">
+          <canvas id="lineChart" width="800" height="400"></canvas>
+        </div>
+        <div className="chart-container">
+          <canvas id="barChart" width="800" height="400"></canvas>
+        </div>
+        <div className="chart-container">
+          <canvas id="stackedBarChart" width="800" height="400"></canvas>
+        </div>
+        <div className="chart-container">
+          <canvas id="doughnutChart" width="800" height="300"></canvas>
+        </div>
+        <div className="chart-container">
+          <canvas id="radarChart" width="800" height="300"></canvas>
+        </div>
       </div>
     </div>
   );
