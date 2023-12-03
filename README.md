@@ -38,9 +38,7 @@ mosquitto_sub -t '/test'
 Vous pouvez cliquer `q` pour quitter.
 
 ## 3. Phase de la Création d'une application avec info détectée
-Dans cette troisième et dernière phase, je vais ajouter de nouvelles fonctionnalités au programme afin que nous puissions utiliser les données détectées lors de la phase précédente.  
-
-L'idée de cette application est que le programme détecte les objets à partir de la caméra. S'il détecte un téléphone, il dira à l'utilisateur de l'éteindre.
+Dans cette troisième et dernière phase, je vais ajouter de nouvelles fonctionnalités au programme afin que nous puissions utiliser les données détectées lors de la phase précédente. On va ajouter 5 features.
 
 ## 3.1 Premier feature: Camera window
 Tout d'abord, j'ai ajouté la fenêtre de la caméra qui montre ce qu'elle voit, puis j'ai ajouté un rectangle de détection sur chaque objet qu'elle détecte avec une étiquette.
