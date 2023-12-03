@@ -77,10 +77,10 @@ const Diagrams = () => {
     };
 
     const createLineChart = (data) => {
-      const labels = data.map((item) => new Date(item.timestamp * 1000).toLocaleString());
+      const labels = data.map((item) => item.label);
       const confidenceValues = data.map((item) => item.confidence);
 
-      const ctxLine = document.getElementById('lineChart').getContext('2d');
+      const ctxLine = document.getElementById('lineChart').getContext('3d');
       new Chart(ctxLine, {
         type: 'line',
         data: {
@@ -171,7 +171,7 @@ const Diagrams = () => {
 
       const ctxPersonCount = document.getElementById('personCountChart').getContext('2d');
       new Chart(ctxPersonCount, {
-        type: 'bar', // You can change the chart type based on your preference
+        type: 'line', // You can change the chart type based on your preference
         data: {
           labels: labels,
           datasets: [
@@ -229,6 +229,20 @@ const Diagrams = () => {
     <div className="diagram-container">
       <div className="chart-container">
         <canvas id="personCountChart" width="800" height="500"></canvas>
+      </div>
+      <div className="chart-container" style={{ textAlign: "Left"}}>
+        <h3>Statistics</h3>
+        <ul>
+          <li>All detections: {data.length}</li>
+          <li>Number of people: {data.filter((item) => item.label === 'person').length}</li>
+          <li>Number of cars: {data.filter((item) => item.label === 'car').length}</li>
+          <li>Number of bicycles: {data.filter((item) => item.label === 'bicycle').length}</li>
+          <li>Number of motorbikes: {data.filter((item) => item.label === 'motorbike').length}</li>
+          <li>Number of buses: {data.filter((item) => item.label === 'bus').length}</li>
+          <li>Number of trucks: {data.filter((item) => item.label === 'truck').length}</li>
+          <li>Number of traffic lights: {data.filter((item) => item.label === 'traffic light').length}</li>
+          <li>Number of stop signs: {data.filter((item) => item.label === 'stop sign').length}</li>
+        </ul>
       </div>
       <div className="chart-container">
         <canvas id="lineChart" width="800" height="400"></canvas>
