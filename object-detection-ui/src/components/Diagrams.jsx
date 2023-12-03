@@ -244,9 +244,9 @@ const Diagrams = () => {
           <li>Number of stop signs: {data.filter((item) => item.label === 'stop sign').length}</li>
         </ul>
       </div>
-      <div className="chart-container">
+      {/* <div className="chart-container">
         <canvas id="lineChart" width="800" height="400"></canvas>
-      </div>
+      </div> */}
       <div className="chart-container">
         <canvas id="barChart" width="800" height="400"></canvas>
       </div>
